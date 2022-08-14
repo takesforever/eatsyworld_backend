@@ -3,10 +3,10 @@ package com.inno67.eatsyworld.service;
 import com.inno67.eatsyworld.dto.PostRequestDto;
 import com.inno67.eatsyworld.dto.PostResponseDto;
 import com.inno67.eatsyworld.model.Post;
+import com.inno67.eatsyworld.model.User;
 import com.inno67.eatsyworld.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sun.net.www.MimeTable;
 
 import javax.transaction.Transactional;
 
@@ -14,11 +14,16 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final StorageService storageService;
 
-    //로그인 후 작성 가능하게 추후에 내용 추가
+    //S3 이미지
     @Transactional
-    public Post writePost(PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
-        return postRepository.save(post);
+    public PostResponseDto writePost(PostRequestDto requestDto, User user) {
+        Post post = new Post(requestDto, user);
+        postRepository.save(post);
+
+        return PostResponseDto.builder()
+                .post(post)
+                .build();
     }
 }

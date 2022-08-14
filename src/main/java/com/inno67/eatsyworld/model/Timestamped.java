@@ -16,6 +16,4 @@ public abstract class Timestamped {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
-
-
 }
