@@ -2,10 +2,13 @@ package com.inno67.eatsyworld.service;
 
 import com.inno67.eatsyworld.dto.LoginRequestDto;
 import com.inno67.eatsyworld.dto.SignupRequestDto;
+import com.inno67.eatsyworld.jwt.JwtTokenProvider;
 import com.inno67.eatsyworld.model.User;
 import com.inno67.eatsyworld.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -15,11 +18,17 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+
     private final UserRepository userRepository;
 
     public Boolean login(LoginRequestDto loginRequestDto) {
         User user = this.userRepository.findByUsername(loginRequestDto.getUsername()).orElse((User) null);
-        if(user != null)    return true;
+        if(user != null) {
+            return this.passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword());
+        }
         else    return false;
     }
 
@@ -35,6 +44,8 @@ public class UserService {
         } else if(!Objects.equals(password, passwordCheck)){
             return "비밀번호가 일치하지 않습니다.";
         } else{
+            password = this.passwordEncoder.encode(password);
+            requestDto.setPassword(password);
             User user = new User(username, password);
             this.userRepository.save(user);
             return "회원가입에 성공하였습니다.";
