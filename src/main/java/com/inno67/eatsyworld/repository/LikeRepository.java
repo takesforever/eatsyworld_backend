@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
-
-    Optional<Like> findByUserIdAndPost(Long userId, Post post);
-
-    int countByPostsId(Long postId);
-
-     List<Like> findAllByUserIdAndPostsId(Long userId, Long postId);
+//
+//    Optional<Like> findByUserIdAndPost(Long userId, Post post);
+//
+//    int countByPostsId(Long postId);
+//
+//    List<Like> findAllByUserIdAndPostsId(Long userId, Long postId);
 
 }
