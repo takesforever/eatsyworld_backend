@@ -10,7 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RequestMapping("/api/likes")
+@RequestMapping("/api/likes/posts/{postsId}")
 @RequiredArgsConstructor
 @RestController
 public class LikeController {
@@ -18,7 +18,7 @@ public class LikeController {
     private final LikeService likeService;
 
     // 게시글 좋아요 등록
-    @PostMapping("/posts/{postsId}")
+    @PostMapping
     public ResponseEntity<String> likePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postsId) {
         boolean result = false;
         if (userDetails != null) {
@@ -28,7 +28,7 @@ public class LikeController {
     }
 
     // 게시글 좋아요 취소
-    @DeleteMapping("/posts/{postsId}")
+    @DeleteMapping
     public ResponseEntity<String> disLikePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postsId) {
         if (userDetails != null) {
             likeService.disLikePost(userDetails.getUser(), postsId);

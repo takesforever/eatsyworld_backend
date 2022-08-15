@@ -31,7 +31,6 @@ public class Post extends Timestamped {
     @Column (nullable = false)
     private String contents;
 
-    @Column (nullable = false)
     private String imgUrl;
 
     public Post(PostRequestDto requestDto, User user, String imgUrl){

@@ -24,7 +24,7 @@ public class PostController {
     public void createPost(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart PostRequestDto requestDto,
-            @RequestPart MultipartFile imageFile
+            @RequestPart(required = false) MultipartFile imageFile
             ){
         if (userDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
