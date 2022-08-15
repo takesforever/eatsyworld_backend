@@ -1,7 +1,6 @@
 package com.inno67.eatsyworld.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 
 @Entity
@@ -20,9 +19,6 @@ public class User extends Timestamped {
     )
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    @JoinColumn
-    private List<Post> post;
 
     public User(String username, String password) {
         this.username = username;

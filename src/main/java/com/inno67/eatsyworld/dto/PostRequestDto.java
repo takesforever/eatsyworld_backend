@@ -1,6 +1,5 @@
 package com.inno67.eatsyworld.dto;
 
-import com.inno67.eatsyworld.model.User;
 import lombok.Getter;
 
 @Getter
