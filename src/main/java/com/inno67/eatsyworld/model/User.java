@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity(name = "Users")
 public class User extends Timestamped {
     @GeneratedValue(
-            strategy = GenerationType.AUTO
+            strategy = GenerationType.IDENTITY
     )
     @Id
     private Long id;
