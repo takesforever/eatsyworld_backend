@@ -21,15 +21,16 @@ public class PostController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void createPost(
+    public String createPost(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart PostRequestDto requestDto,
-            @RequestPart MultipartFile imageFile
+            @RequestPart(required = false) MultipartFile imageFile
             ){
         if (userDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
         User user = userDetails.getUser();
         postService.writePost(requestDto, user, imageFile);
+        return "게시글이 작성되었습니다.";
     }
 }
