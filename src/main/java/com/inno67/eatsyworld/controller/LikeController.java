@@ -22,7 +22,7 @@ public class LikeController {
     public ResponseEntity<String> likePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postsId) {
         boolean result = false;
         if (userDetails != null) {
-            result = likeService.likePost(userDetails.getUser().getId(), postsId);
+            result = likeService.likePost(userDetails.getUser(), postsId);
         }
         return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>("로그인이 필요합니다.", HttpStatus.OK);
     }
@@ -31,7 +31,7 @@ public class LikeController {
     @DeleteMapping("/posts/{postsId}")
     public ResponseEntity<String> disLikePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postsId) {
         if (userDetails != null) {
-            likeService.disLikePost(userDetails.getUser().getId(), postsId);
+            likeService.disLikePost(userDetails.getUser(), postsId);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

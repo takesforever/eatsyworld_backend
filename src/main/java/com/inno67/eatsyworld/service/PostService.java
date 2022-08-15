@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    private final StorageService storageService;
 
     //S3 이미지
     @Transactional

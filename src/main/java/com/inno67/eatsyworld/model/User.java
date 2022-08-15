@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 
-@Entity
+@Entity(name = "Users")
 public class User extends Timestamped {
     @GeneratedValue(
             strategy = GenerationType.AUTO
@@ -21,7 +21,6 @@ public class User extends Timestamped {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    @JoinColumn
     private List<Post> post;
 
     public User(String username, String password) {
