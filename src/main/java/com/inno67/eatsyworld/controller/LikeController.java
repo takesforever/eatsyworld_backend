@@ -18,20 +18,20 @@ public class LikeController {
     private final LikeService likeService;
 
     // 게시글 좋아요 등록
-    @PostMapping("/contents/{contentsId}")
-    public ResponseEntity<String> likePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
+    @PostMapping("/posts/{postsId}")
+    public ResponseEntity<String> likePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postsId) {
         boolean result = false;
         if (userDetails != null) {
-            result = likeService.likePost(userDetails.getUser().getId(), postId);
+            result = likeService.likePost(userDetails.getUser(), postsId);
         }
         return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>("로그인이 필요합니다.", HttpStatus.OK);
     }
 
     // 게시글 좋아요 취소
-    @DeleteMapping("/contents/{contentsId}")
-    public ResponseEntity<String> disLikePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId) {
+    @DeleteMapping("/posts/{postsId}")
+    public ResponseEntity<String> disLikePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postsId) {
         if (userDetails != null) {
-            likeService.disLikePost(userDetails.getUser().getId(), postId);
+            likeService.disLikePost(userDetails.getUser(), postsId);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
