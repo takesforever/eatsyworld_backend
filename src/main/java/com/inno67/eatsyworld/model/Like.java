@@ -17,10 +17,11 @@ public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long like_id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -29,8 +30,8 @@ public class Like {
     private Post post;
 
 
-    public Like(Long userId, Post post) {
-        this.userId = userId;
+    public Like(User user, Post post) {
+        this.user = user;
         this.post = post;
     }
 }

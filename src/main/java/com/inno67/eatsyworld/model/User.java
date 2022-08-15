@@ -3,7 +3,7 @@ package com.inno67.eatsyworld.model;
 import javax.persistence.*;
 
 
-@Entity
+@Entity(name = "Users")
 public class User extends Timestamped {
     @GeneratedValue(
             strategy = GenerationType.AUTO
