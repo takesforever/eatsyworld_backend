@@ -21,7 +21,7 @@ public class PostController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public void createPost(
+    public String createPost(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart PostRequestDto requestDto,
             @RequestPart(required = false) MultipartFile imageFile
@@ -31,5 +31,6 @@ public class PostController {
         }
         User user = userDetails.getUser();
         postService.writePost(requestDto, user, imageFile);
+        return "게시글이 작성되었습니다.";
     }
 }
