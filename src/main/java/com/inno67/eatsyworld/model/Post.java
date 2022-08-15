@@ -3,10 +3,8 @@ package com.inno67.eatsyworld.model;
 import com.inno67.eatsyworld.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -36,28 +34,12 @@ public class Post extends Timestamped {
     @Column (nullable = false)
     private String imgUrl;
 
-    @Column
-    private LocalDateTime createdAt;
-
-    public Post(PostRequestDto requestDto, User user){
+    public Post(PostRequestDto requestDto, User user, String imgUrl){
         this.user = user;
         this.title = requestDto.getTitle();
         this.product = requestDto.getProduct();
         this.store = requestDto.getStore();
         this.contents = requestDto.getContents();
-        //this.imgUrl = imgUrl;
+        this.imgUrl = imgUrl;
     }
-
-//    protected Post() {}
-//
-//    public Post(Long user_id, String title, String product, String store, String contents){
-//        this.user = user_id;
-//        this.title = title;
-//        this.product = product;
-//        this.store = store;
-//        this.contents = contents;
-//    }
-//
-//    public static Post create(Long user_id, String title, String product, String store, String contents) {
-//        return new Post(user_id,title, product, store, contents);
-    }
+}

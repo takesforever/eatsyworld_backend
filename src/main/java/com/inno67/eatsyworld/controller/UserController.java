@@ -4,8 +4,6 @@ import com.inno67.eatsyworld.dto.LoginRequestDto;
 import com.inno67.eatsyworld.dto.SignupRequestDto;
 import com.inno67.eatsyworld.jwt.JwtTokenProvider;
 import com.inno67.eatsyworld.service.UserService;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

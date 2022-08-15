@@ -18,8 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import java.nio.file.Path;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
