@@ -2,6 +2,7 @@ package com.inno67.eatsyworld.controller;
 
 
 import com.inno67.eatsyworld.dto.PostRequestDto;
+import com.inno67.eatsyworld.dto.PostResponseDto;
 import com.inno67.eatsyworld.model.User;
 import com.inno67.eatsyworld.security.UserDetailsImpl;
 import com.inno67.eatsyworld.service.PostService;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -18,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
-
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -33,5 +34,10 @@ public class PostController {
         User user = userDetails.getUser();
         postService.writePost(requestDto, user, imageFile);
         return "게시글이 작성되었습니다.";
+    }
+
+    @GetMapping
+    public List<PostResponseDto> getContentsList() {
+        return postService.getPostsList();
     }
 }

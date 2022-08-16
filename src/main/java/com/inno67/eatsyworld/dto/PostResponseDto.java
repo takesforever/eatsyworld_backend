@@ -16,10 +16,10 @@ public class PostResponseDto {
     private final String contents;
     private final String imgUrl;
     private final LocalDateTime createdAt;
-//    private final int LikeNum;
+    private final int LikeNum;
 
     @Builder
-    public PostResponseDto(Post post){
+    public PostResponseDto(Post post, int likeNum){
         this.post_id = post.getPost_id();
         this.title = post.getTitle();
         this.username = post.getUser().getUsername();
@@ -28,6 +28,6 @@ public class PostResponseDto {
         this.contents = post.getContents();
         this.imgUrl = post.getImgUrl();
         this.createdAt = post.getCreatedAt();
-//        this.LikeNum = LikeNum;
+        this.LikeNum = likeNum;
     }
 }
