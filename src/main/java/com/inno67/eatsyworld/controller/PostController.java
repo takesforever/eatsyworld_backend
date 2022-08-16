@@ -21,7 +21,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public String createPost(
