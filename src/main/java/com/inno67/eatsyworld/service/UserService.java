@@ -5,7 +5,6 @@ import com.inno67.eatsyworld.dto.SignupRequestDto;
 import com.inno67.eatsyworld.jwt.JwtTokenProvider;
 import com.inno67.eatsyworld.model.User;
 import com.inno67.eatsyworld.repository.UserRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +42,10 @@ public class UserService {
             return "중복된 아이디입니다.";
         } else if(!Objects.equals(password, passwordCheck)){
             return "비밀번호가 일치하지 않습니다.";
+        } else if(Objects.equals(username, "")){
+            return "아이디를 입력해주세요.";
+        } else if(Objects.equals(password, "")){
+            return "비밀번호를 입력해주세요.";
         } else{
             password = this.passwordEncoder.encode(password);
             requestDto.setPassword(password);
