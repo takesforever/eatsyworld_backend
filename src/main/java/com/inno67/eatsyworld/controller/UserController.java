@@ -33,23 +33,4 @@ public class UserController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-//    @GetMapping("/logout")
-//    public String doLogout(@AuthenticationPrincipal UserDetailsImpl userDetails){
-//        if(userService.logout(userDetails))
-//    }
-//
-//    public Boolean logout(ServletRequest request, ServletResponse response, FilterChain chain){
-//        // 요청 헤더에서 토큰 가져옴
-//        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-//        // 토큰이 null 이 아니거나 유효한 토큰이 아닌 경우
-//        if (token != null && this.jwtTokenProvider.validateToken(token)) {
-//            // 인증 객체에 null 토큰 넣기
-//            Authentication authentication = this.jwtTokenProvider.getAuthentication(null);
-//            // security contextHolder 초기화
-//            SecurityContextHolder.clearContext();
-//            return true;
-//        } else{
-//            return false;
-//        }
-//    }
 }
