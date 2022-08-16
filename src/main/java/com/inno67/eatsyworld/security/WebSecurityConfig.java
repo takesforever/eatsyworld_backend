@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -38,7 +36,7 @@ public class WebSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-     // (기본설정) 스프링부트가 제공하는 static 리소스들의 기본위치를 가져와 스프링 시큐리티에서 제외
+    // (기본설정) 스프링부트가 제공하는 static 리소스들의 기본위치를 가져와 스프링 시큐리티에서 제외
     public void configure(WebSecurity web) {
         web.ignoring().mvcMatchers("/docs/index.html");
         web.ignoring().requestMatchers(new RequestMatcher[]{PathRequest.toStaticResources().atCommonLocations()});
@@ -47,15 +45,16 @@ public class WebSecurityConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.cors();
         http.headers().frameOptions().disable();
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .mvcMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/scripts/**").permitAll()
                 .antMatchers("/css/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/admin/**").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // 세션인증 사용하지 않음
@@ -65,24 +64,6 @@ public class WebSecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
             return http.build();
-
-//        //기존 코드
-//        ((HttpSecurity) ((HttpSecurity) ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)
-//                ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)
-//                        ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)
-//                                ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)
-//                                        ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)
-//                                                ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl)
-//                                                        http.authorizeRequests().antMatchers(new String[]{"/api/**"})).permitAll()
-//                                                        .antMatchers(new String[]{"**"})).permitAll()
-//                                                .antMatchers(new String[]{"/"})).permitAll()
-//                                        .antMatchers(HttpMethod.GET, new String[]{"/api/contents"}))
-//                                .permitAll().antMatchers(HttpMethod.GET, new String[]{"/api/reply/**"}))
-//                        .permitAll().anyRequest()).authenticated()
-//                .and())
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and())
-//                .addFilterBefore(new JwtAuthenticationFilter(this.jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     public WebSecurityConfig(JwtTokenProvider jwtTokenProvider) {
