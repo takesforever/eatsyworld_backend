@@ -1,6 +1,7 @@
 package com.inno67.eatsyworld.controller;
 
 
+import com.inno67.eatsyworld.dto.GeneralPostResponseDto;
 import com.inno67.eatsyworld.dto.PostRequestDto;
 import com.inno67.eatsyworld.dto.PostResponseDto;
 import com.inno67.eatsyworld.model.User;
@@ -31,13 +32,16 @@ public class PostController {
         if (userDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
+        if (requestDto.getTitle().isBlank()||requestDto.getTitle().isBlank()||requestDto.getContents().isBlank()||requestDto.getStore().isBlank()||requestDto.getProduct().isBlank()){
+            throw new IllegalArgumentException("내용 입력이 필요합니다.");
+        }
         User user = userDetails.getUser();
         postService.writePost(requestDto, user, imageFile);
         return "게시글이 작성되었습니다.";
     }
 
     @GetMapping
-    public List<PostResponseDto> getContentsList() {
+    public List<GeneralPostResponseDto> getContentsList() {
         return postService.getPostsList();
     }
 }

@@ -1,5 +1,6 @@
 package com.inno67.eatsyworld.service;
 
+import com.inno67.eatsyworld.dto.GeneralPostResponseDto;
 import com.inno67.eatsyworld.dto.PostRequestDto;
 import com.inno67.eatsyworld.dto.PostResponseDto;
 import com.inno67.eatsyworld.model.Post;
@@ -32,17 +33,26 @@ public class PostService {
         postRepository.save(post);
     }
     // 게시글 목록 리스트 조회
-    public List<PostResponseDto> getPostsList() {
+    public List<GeneralPostResponseDto> getPostsList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        List<PostResponseDto> listContents = new ArrayList<>();
+        List<GeneralPostResponseDto> listContents = new ArrayList<>();
         for (Post post : posts) {
-            // + 좋아요 개수 카운팅
-            int countLike = likeRepository.countByPost(post);
-            PostResponseDto contentsResponseDto = PostResponseDto.builder()
+            GeneralPostResponseDto generalResponseDto = GeneralPostResponseDto.builder()
                     .post(post)
-                    .likeNum(countLike)
                     .build();
-            listContents.add(contentsResponseDto);
+            listContents.add(generalResponseDto);
+        }
+        return listContents;
+    }
+
+    public List<GeneralPostResponseDto> getMyPostList(User user) {
+        List<Post> posts = postRepository.findAllByUserOrderByCreatedAtDesc(user);
+        List<GeneralPostResponseDto> listContents = new ArrayList<>();
+        for (Post post : posts) {
+            GeneralPostResponseDto mypageResponseDto = GeneralPostResponseDto.builder()
+                    .post(post)
+                    .build();
+            listContents.add(mypageResponseDto);
         }
         return listContents;
     }

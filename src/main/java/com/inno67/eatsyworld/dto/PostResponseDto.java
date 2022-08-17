@@ -1,5 +1,6 @@
 package com.inno67.eatsyworld.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.inno67.eatsyworld.model.Post;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class PostResponseDto {
     private final String store;
     private final String contents;
     private final String imgUrl;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private final LocalDateTime createdAt;
     private final int LikeNum;
 
