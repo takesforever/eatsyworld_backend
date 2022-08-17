@@ -1,6 +1,7 @@
 package com.inno67.eatsyworld.controller;
 
 import com.inno67.eatsyworld.dto.GeneralPostResponseDto;
+import com.inno67.eatsyworld.dto.PostResponseDto;
 import com.inno67.eatsyworld.security.UserDetailsImpl;
 import com.inno67.eatsyworld.service.PostService;
 import lombok.RequiredArgsConstructor;

@@ -24,23 +24,27 @@ public class PostService {
 
     //S3 이미지
     @Transactional
-    public void writePost(PostRequestDto requestDto, User user, MultipartFile imagefile) {
+    public PostResponseDto writePost(PostRequestDto requestDto, User user, MultipartFile imagefile) {
         String imgUrl = "";
         if(imagefile != null) {
             imgUrl = storageService.uploadFile(imagefile);
         }
         Post post = new Post(requestDto, user, imgUrl);
         postRepository.save(post);
+        return PostResponseDto.builder()
+                .post(post)
+                .build();
     }
+
     // 게시글 목록 리스트 조회
     public List<GeneralPostResponseDto> getPostsList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<GeneralPostResponseDto> listContents = new ArrayList<>();
         for (Post post : posts) {
-            GeneralPostResponseDto generalResponseDto = GeneralPostResponseDto.builder()
+            GeneralPostResponseDto postGeneralResponseDto = GeneralPostResponseDto.builder()
                     .post(post)
                     .build();
-            listContents.add(generalResponseDto);
+            listContents.add(postGeneralResponseDto);
         }
         return listContents;
     }

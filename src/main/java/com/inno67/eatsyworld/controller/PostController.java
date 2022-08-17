@@ -24,7 +24,7 @@ public class PostController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String createPost(
+    public PostResponseDto createPost(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart PostRequestDto requestDto,
             @RequestPart(required = false) MultipartFile imageFile
@@ -36,8 +36,7 @@ public class PostController {
             throw new IllegalArgumentException("내용 입력이 필요합니다.");
         }
         User user = userDetails.getUser();
-        postService.writePost(requestDto, user, imageFile);
-        return "게시글이 작성되었습니다.";
+        return postService.writePost(requestDto, user, imageFile);
     }
 
     @GetMapping
