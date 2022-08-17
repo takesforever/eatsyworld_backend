@@ -43,4 +43,17 @@ public class PostController {
     public List<GeneralPostResponseDto> getContentsList() {
         return postService.getPostsList();
     }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @PutMapping("/{postId}")
+    public String updatePost(@PathVariable Long postId,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails,
+                             @RequestPart PostRequestDto requestDto,
+                             @RequestPart(required = false) MultipartFile imageFile) {
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        } else {
+            return this.postService.updatePost(postId, requestDto, userDetails.getUser(), imageFile);
+        }
+    }
 }

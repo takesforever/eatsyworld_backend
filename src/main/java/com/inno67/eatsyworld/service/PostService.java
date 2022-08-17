@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -59,5 +60,25 @@ public class PostService {
             listContents.add(mypageResponseDto);
         }
         return listContents;
+    }
+
+
+
+    @Transactional
+    public String updatePost(Long postId, PostRequestDto requestDto, User user, MultipartFile imagefile) {
+        Post post = this.postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        if (post.getUser().getUser_id().equals(user.getUser_id())) {
+            String imgUrl = "";
+            if(imagefile != null) {
+                imgUrl = storageService.uploadFile(imagefile);
+            }else{
+                imgUrl = post.getImgUrl();
+            }
+            post.update(requestDto, imgUrl);
+            return ("게시글을 수정했습니다.");
+        } else {
+            return ("게시글의 작성자가 아닙니다.");
+        }
     }
 }

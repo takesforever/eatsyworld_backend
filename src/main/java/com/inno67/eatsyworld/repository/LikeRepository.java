@@ -10,7 +10,4 @@ import java.util.Optional;
 public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByUserAndPost(User user, Post post);
-
-    int countByPost(Post post);
-
 }
