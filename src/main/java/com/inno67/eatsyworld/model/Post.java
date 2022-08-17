@@ -42,4 +42,12 @@ public class Post extends Timestamped {
         this.contents = requestDto.getContents();
         this.imgUrl = imgUrl;
     }
+
+    public void update(PostRequestDto requestDto, String imgUrl) {
+        this.title = requestDto.getTitle();
+        this.product = requestDto.getProduct();
+        this.store = requestDto.getStore();
+        this.contents = requestDto.getContents();
+        this.imgUrl = imgUrl;
+    }
 }
