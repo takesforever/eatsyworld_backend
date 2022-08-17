@@ -1,22 +1,27 @@
 package com.inno67.eatsyworld.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.inno67.eatsyworld.model.Post;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class PostResponseDto {
-    private final Long post_id;
-    private final String username;
-    private final String title;
-    private final String product;
-    private final String store;
-    private final String contents;
-    private final String imgUrl;
-    private final LocalDateTime createdAt;
-    private final int LikeNum;
+    private Long post_id;
+    private String username;
+    private String title;
+    private String product;
+    private String store;
+    private String contents;
+    private String imgUrl;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime createdAt;
+    private int LikeNum;
 
     @Builder
     public PostResponseDto(Post post, int likeNum){

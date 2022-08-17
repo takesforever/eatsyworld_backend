@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    UserService userService;
-    JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
     public String doLogin(@RequestBody LoginRequestDto requestDto){
