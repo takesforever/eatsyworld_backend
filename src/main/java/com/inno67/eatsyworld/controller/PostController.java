@@ -10,6 +10,7 @@ import com.inno67.eatsyworld.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,4 +57,21 @@ public class PostController {
             return this.postService.updatePost(postId, requestDto, userDetails.getUser(), imageFile);
         }
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<String> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long id;
+        try {
+            id = userDetails.getUser().getUser_id();
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>("로그인을 해주세요.", HttpStatus.OK);
+        }
+        try {
+            postService.deletePost(postId, userDetails.getUser());
+        } catch (IllegalArgumentException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("게시글 삭제 완료.",HttpStatus.OK);
+    }
+
 }

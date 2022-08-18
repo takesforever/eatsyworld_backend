@@ -7,7 +7,9 @@ import com.inno67.eatsyworld.model.Post;
 import com.inno67.eatsyworld.model.User;
 import com.inno67.eatsyworld.repository.LikeRepository;
 import com.inno67.eatsyworld.repository.PostRepository;
+import com.inno67.eatsyworld.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -79,6 +81,15 @@ public class PostService {
             return ("게시글을 수정했습니다.");
         } else {
             return ("게시글의 작성자가 아닙니다.");
+        }
+    }
+    public void deletePost(Long id, User user) {
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        if (post.getUser().getUser_id().equals(user.getUser_id())){
+            postRepository.deleteById(id);
+        }else{
+            throw new IllegalArgumentException("작성자가 아닙니다.");
         }
     }
 }
