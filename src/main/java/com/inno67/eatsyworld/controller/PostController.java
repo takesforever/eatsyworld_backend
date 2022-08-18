@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,11 +30,11 @@ public class PostController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestPart PostRequestDto requestDto,
             @RequestPart(required = false) MultipartFile imageFile
-            ){
+    ) {
         if (userDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
-        if (requestDto.getTitle().isBlank()||requestDto.getTitle().isBlank()||requestDto.getContents().isBlank()||requestDto.getStore().isBlank()||requestDto.getProduct().isBlank()){
+        if (requestDto.getTitle().isBlank() || requestDto.getTitle().isBlank() || requestDto.getContents().isBlank() || requestDto.getStore().isBlank() || requestDto.getProduct().isBlank()) {
             throw new IllegalArgumentException("내용 입력이 필요합니다.");
         }
         User user = userDetails.getUser();
@@ -68,10 +69,18 @@ public class PostController {
         }
         try {
             postService.deletePost(postId, userDetails.getUser());
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
         }
-        return new ResponseEntity<>("게시글 삭제 완료.",HttpStatus.OK);
+        return new ResponseEntity<>("게시글 삭제 완료.", HttpStatus.OK);
     }
 
+    @GetMapping("/{postId}")
+    public PostResponseDto getDetailPost(@PathVariable Long postId) {
+        return postService.getDetailPost(postId);
+    }
 }
+
+
+
+
