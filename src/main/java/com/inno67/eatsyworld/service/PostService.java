@@ -9,6 +9,7 @@ import com.inno67.eatsyworld.repository.LikeRepository;
 import com.inno67.eatsyworld.repository.PostRepository;
 import com.inno67.eatsyworld.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +53,18 @@ public class PostService {
         }
         return listContents;
     }
+
+    public PostResponseDto getDetailPost(Long postId) {
+        Post posts = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        int countLike = likeRepository.countByPost(posts);
+        PostResponseDto postDetail = PostResponseDto.builder()
+                .post(posts)
+                .likeNum(countLike)
+                .build();
+        return postDetail;
+    }
+
 
     public List<GeneralPostResponseDto> getMyPostList(User user) {
         List<Post> posts = postRepository.findAllByUserOrderByCreatedAtDesc(user);
